@@ -5,14 +5,16 @@ import './App.css'
 function App() {
   const [title , setTitle] = useState("")
 
-  const handleCreateDeck = (e:React.FormEvent)=>{
+  const handleCreateDeck = async (e:React.FormEvent)=>{
       e.preventDefault()
-      fetch('http://localhost:5000/decks',{
+      await fetch("http://localhost:5000/decks",{
         method:'POST',
         body:JSON.stringify({
           title
-        })
+        }),
+        headers:{'Content-Type':'application/json'}
       })
+      setTitle("");
   }
 
   return (
