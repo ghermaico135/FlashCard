@@ -1,7 +1,10 @@
 import express,{Request,Response} from 'express'
 import mongoose from 'mongoose'
+import { config } from 'dotenv'
+
 import DeckModel from './models/Deck'
 
+config();
 const app = express()
 
 app.use(express.json())
@@ -19,7 +22,7 @@ app.post('/decks', async (req:Request,res:Response)=>{
 
 
 mongoose.connect(
-    "mongodb://127.0.0.1:27017/flashCard")
+  process.env.MONGODB_URI!)
     .then(()=>{
         app.listen(5000,()=>{
             console.log("connected")
