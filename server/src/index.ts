@@ -4,9 +4,17 @@ import DeckModel from './models/Deck'
 
 const app = express()
 
+app.use(express.json())
 
-app.get('/', (req:Request,res:Response)=>{
-    res.send("Hello from typescript")
+// app.get('/decks',async (req:Request,res:Response) =>{
+//     const deck = new DeckModel()
+// })
+
+app.post('/decks', async (req:Request,res:Response)=>{
+    // res.send("Hello from typescript")
+    const newDeck = new DeckModel({title:req.body.title})
+    const created = await newDeck.save()
+    res.status(201).json({message:"created","created":created})
 })
 
 
