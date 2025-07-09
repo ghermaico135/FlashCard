@@ -1,17 +1,12 @@
 import express,{Request,Response} from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
-
-import DeckModel from './models/Deck'
+import route from './routes/decksRoute';
 
 config();
 const app = express()
 
 app.use(express.json())
-
-// app.get('/decks',async (req:Request,res:Response) =>{
-//     const deck = new DeckModel()
-// })
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*'); // Allow all (or specify a domain)
@@ -20,12 +15,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/decks', async (req:Request,res:Response)=>{
-    // res.send("Hello from typescript")
-    const newDeck = new DeckModel({title:req.body.title})
-    const created = await newDeck.save()
-    res.status(201).json({message:"created","created":created})
-})
+
+app.use('/api' , route);
 
 
 mongoose.connect(
