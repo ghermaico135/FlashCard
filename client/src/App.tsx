@@ -1,32 +1,29 @@
 
 import { useEffect, useState } from 'react'
 import './App.css'
+import { createDeck,getDeck,deleteDeck,type TDeck} from './api/api-deck'
 
-type Deck ={
-  _id :string;
-  title:string;
-}
 
 function App() {
   const [title , setTitle] = useState("")
-  const [decks , setDecks] = useState<Deck[]>([])
+  const [decks , setDecks] = useState<|TDeck[]>([])
 
   const handleCreateDeck = async (e:React.FormEvent)=>{
       e.preventDefault()
-      await fetch("http://localhost:5000/api/decks",{
-        method:'POST',
-        body:JSON.stringify({
-          title
-        }),
-        headers:{'Content-Type':'application/json'}
-      })
+      const deck =await createDeck(title)
+      setDecks([...decks,deck])
       setTitle("");
+  }
+
+  const handleDelete = async(cardId:String) =>{
+       await deleteDeck(cardId)
+    // refecthing
+    setDecks(decks.filter((deck)=> deck._id !== cardId))
   }
 
   useEffect(() =>{
    async function fetchDeck(){
-    const response =  await fetch("http://localhost:5000/api/decks");
-    const data= await response.json()
+    const data= await getDeck()
     console.log("value ",data)
     setDecks(data);
    }
@@ -38,14 +35,16 @@ function App() {
     <div className='App'>
        <ul className='decks'>
           {decks.map(deck => (
-              <li key={deck._id}> {deck.title} </li>
+              <li key={deck._id}>  
+                <button onClick={() => handleDelete(deck._id)}>X</button>
+               </li>
           ))}
       </ul>
 
       <form onSubmit={handleCreateDeck}>
         <label htmlFor="deck-title">Deck-Title</label>
         <input type="text" id="deck-title" value={title} onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{setTitle(e.target.value)}} />
-          <button className="btn">Create Deck</button>
+          <button >Create Deck</button>
       </form>
     </div>
   )
