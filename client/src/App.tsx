@@ -36,7 +36,7 @@ function App() {
   console.log("the whole data",decks)
   return (
     <div className='App'>
-       <ul className='deck'>
+       <ul className='decks'>
           {decks.map(deck => (
               <li key={deck._id}> {deck.title} </li>
           ))}
@@ -45,7 +45,7 @@ function App() {
       <form onSubmit={handleCreateDeck}>
         <label htmlFor="deck-title">Deck-Title</label>
         <input type="text" id="deck-title" value={title} onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{setTitle(e.target.value)}} />
-          <button>Create Deck</button>
+          <button className="btn">Create Deck</button>
       </form>
     </div>
   )
