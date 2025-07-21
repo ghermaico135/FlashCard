@@ -26,19 +26,20 @@ function App() {
   useEffect(() =>{
    async function fetchDeck(){
     const response =  await fetch("http://localhost:5000/api/decks");
-    const newDeck:Deck[] = await response.json()
-    // console.log(newDeck)
-    setDecks(newDeck);
+    const data= await response.json()
+    console.log("value ",data)
+    setDecks(data);
    }
    fetchDeck();
   },[])
  
+  console.log("the whole data",decks)
   return (
     <div className='App'>
-       <ul className='decks'>
-        {decks.map((deck) => (
-            <li key={deck._id}> {deck.title} </li>
-        ))}
+       <ul className='deck'>
+          {decks.map(deck => (
+              <li key={deck._id}> {deck.title} </li>
+          ))}
       </ul>
 
       <form onSubmit={handleCreateDeck}>
