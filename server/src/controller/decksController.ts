@@ -5,7 +5,7 @@ import Deck from "../models/Deck"
 export const getDeck = async (req:Request,res:Response) =>{
     const deck = await Deck.find();
     console.log(deck)
-    res.status(200).json({deck:deck});
+    res.status(200).json(deck);
 }
 
 export const postDeck = async (req:Request,res:Response)=>{
